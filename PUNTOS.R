@@ -14,13 +14,13 @@ Sys.setlocale("LC_CTYPE", "en_US.UTF-8")
 #-------- PUNTO 1 ---------
 #--------------------------
 
-vector1 <- c(1:100) "Creamos el vector con cien numeros de 1 a 100"
-vector2 <- c(1:99)  "creamos la base para el vector de los numeros impares"
-(ii <- vector2 %% 2) "queremos seleccionar los elementos impares en el vector2, se puede hacer como se muestra"
-ii <- as.logical(ii)  "Convertimos ii a lógico para mas adelante utilizarlo para indexar al vector 2"
-vector3 <- vector2[ii] "asi conseguimos un vector con solo los numeros impares de 1 al 99"
-vector_combinado <- c(vector3,vector1) "se combinan ambos vectopres para juntar los valores numericos"
-vector_mezclado <- (vector_combinado[-1:-50]) "se seleccionan los datos pares para el vector mezclado para tener numeros pares e impares"
+vector1 <- c(1:100) #"Creamos el vector con cien numeros de 1 a 100"
+vector2 <- c(1:99)  #"creamos la base para el vector de los numeros impares"
+(ii <- vector2 %% 2) #"queremos seleccionar los elementos impares en el vector2, se puede hacer como se muestra"
+ii <- as.logical(ii)  #"Convertimos ii a lógico para mas adelante utilizarlo para indexar al vector 2"
+vector3 <- vector2[ii] #"asi conseguimos un vector con solo los numeros impares de 1 al 99"
+vector_combinado <- c(vector3,vector1) #"se combinan ambos vectopres para juntar los valores numericos"
+vector_mezclado <- (vector_combinado[-1:-50]) #"se seleccionan los datos pares para el vector mezclado para tener numeros pares e impares"
 
 #--------------------------
 #-------- PUNTO 2 ---------
