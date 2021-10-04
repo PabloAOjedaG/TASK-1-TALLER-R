@@ -61,62 +61,22 @@ View(base_cultivos_pivot)
 
 # PARTE A
 
+#Importamos todas las bases de datos
 carac = import(file = "task_1/data/input/2019/Cabecera - Caracteristicas generales (Personas).rds") %>% mutate(ocupado=NA) %>% mutate(desocupado=NA)  %>% mutate(inactivo=NA) %>% mutate(fuerza=NA)
 ocupa = import(file = "task_1/data/input/2019/Cabecera - Ocupados.rds") %>% mutate(ocupado=1)
-ocupado <- c("ocupado")
-df1 = ocupa[ocupado]
-# comando extrapolado desde la página:
-browseURL(url = "https://www.listendata.com/2015/06/r-keep-drop-columns-from-data-frame.html")
-browseURL(url = "https://stackoverflow.com/questions/7531868/how-to-rename-a-single-column-in-a-data-frame")
-
 desoc = import(file = "task_1/data/input/2019/Cabecera - Desocupados.rds") %>% mutate(desocupado=1)
-desocupado <- c("desocupado")
-df2 = desoc[desocupado]
-# comando extrapolado desde la página:
-browseURL(url = "https://www.listendata.com/2015/06/r-keep-drop-columns-from-data-frame.html")
-browseURL(url = "https://stackoverflow.com/questions/7531868/how-to-rename-a-single-column-in-a-data-frame")
-
 inact = import(file = "task_1/data/input/2019/Cabecera - Inactivos.rds") %>% mutate(inactivo=1)
-inactivo <- c("inactivo")
-df3 = inact[inactivo]
-# comando extrapolado desde la página:
-browseURL(url = "https://www.listendata.com/2015/06/r-keep-drop-columns-from-data-frame.html")
-browseURL(url = "https://stackoverflow.com/questions/7531868/how-to-rename-a-single-column-in-a-data-frame")
-
 fztra = import(file = "task_1/data/input/2019/Cabecera - Fuerza de trabajo.rds") %>% mutate(fuerza=1)
-fuerza <- c("fuerza")
-df4 = fztra[fuerza]
-# comando extrapolado desde la página:
-browseURL(url = "https://www.listendata.com/2015/06/r-keep-drop-columns-from-data-frame.html")
-browseURL(url = "https://stackoverflow.com/questions/7531868/how-to-rename-a-single-column-in-a-data-frame")
 
 
-geral = left_join(carac, ocupa, c("secuencia_p", "orden", "directorio")) %>%
-  left_join(., desoc, c("secuencia_p", "orden", "directorio")) %>%
-  left_join(., inact, c("secuencia_p", "orden", "directorio")) %>%
-  left_join(., fztra, c("secuencia_p", "orden", "directorio"))
+#Unimos todas las bases de datos haciendo el joint
+geih = left_join(carac,ocupa,c("secuencia_p","orden","directorio")) %>%
+  left_join(.,desoc,c("secuencia_p","orden","directorio")) %>%
+  left_join(.,fztra,c("secuencia_p","orden","directorio")) %>%
+  left_join(.,inact,c("secuencia_p","orden","directorio")) 
 
-vari <- c("secuencia_p", "orden", "directorio","P6020","P6040","P6920","P6050","DPTO","ESC", "ocupado.x", "desocupado.x", "inactivo.x", "fuerza.x")
-final = geral[vari]
-# comando extrapolado desde la página:
-browseURL(url = "https://www.listendata.com/2015/06/r-keep-drop-columns-from-data-frame.html")
+#Eliminamos todas las columnas que no nos son relevantes
+geih_final = geih[, c("secuencia_p","orden","directorio", "P6020", "P6040", "P6920", "INGLABO", "DPTO", "ESC", "P6050", "Oci", "dsi", "Ft", "ini")]
 
-final <- qpcR:::cbind.na(df1, final)
-colnames(final)[colnames(final) == "ocupado.x"] <- "ocupado"
-
-final <- qpcR:::cbind.na(df2, final)
-colnames(final)[colnames(final) == "desocupado.x"] <- "desocupado"
-
-final <- qpcR:::cbind.na(df3, final)
-colnames(final)[colnames(final) == "inactivo.x"] <- "inactivo"
-
-final <- qpcR:::cbind.na(df4, final)
-colnames(final)[colnames(final) == "fuerza.x"] <- "fuerza"
-
-# comando extrapolado desde la página:
-browseURL(url = "https://stackoverflow.com/questions/3699405/how-to-cbind-or-rbind-different-lengths-vectors-without-repeating-the-elements-o")
-
-
-
-
+skim(geih_final)
 
