@@ -3,7 +3,7 @@
 # Pablo Andres Ojeda Gomez, con codigo 202012899;
 # Diana Lucia Sanchez Ruiz, con codigo 202013592;
 # Gabriel Perdomo Olmos, con codigo 202013093.
-#Version de R 4.1.1
+# Version de R 4.1.1
 
 # Configuraciones iniciales
 rm(list = ls())
