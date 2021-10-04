@@ -59,7 +59,7 @@ View(base_cultivos_pivot)
 #-------- PUNTO 3 ---------
 #--------------------------
 
-# PARTE A
+# 3.1 Importar
 
 #Importamos todas las bases de datos
 carac = import(file = "task_1/data/input/2019/Cabecera - Caracteristicas generales (Personas).rds") %>% mutate(ocupado=NA) %>% mutate(desocupado=NA)  %>% mutate(inactivo=NA) %>% mutate(fuerza=NA)
@@ -75,8 +75,40 @@ geih = left_join(carac,ocupa,c("secuencia_p","orden","directorio")) %>%
   left_join(.,fztra,c("secuencia_p","orden","directorio")) %>%
   left_join(.,inact,c("secuencia_p","orden","directorio")) 
 
-#Eliminamos todas las columnas que no nos son relevantes
+#Dejamos en la base final las columnas relevantes
 geih_final = geih[, c("secuencia_p","orden","directorio", "P6020", "P6040", "P6920", "INGLABO", "DPTO", "ESC", "P6050", "Oci", "dsi", "Ft", "ini")]
 
 skim(geih_final)
+
+# 3.2 Descriptivas
+
+#Tabla ingresos por quartiles
+geih_final %>% summarise(quartiles = quantile(INGLABO, na.rm = TRUE))
+
+#Tabla de ingresos promedio (ocupados) por sexo 
+geih_final %>%  group_by(P6020, Oci)  %>% summarise(ingresos_promedio = mean(INGLABO, na.rm = TRUE))
+
+#Tabla de desocupados por género
+geih_final %>% group_by(P6020) %>% summarise(total = table(dsi))
+#Tabla de desocupados por departamento
+geih_final %>% group_by(DPTO) %>% summarise(total = table(dsi))
+#Tabla de desocupados por edad
+geih_final %>% group_by(P6040) %>% summarise(total = table(dsi))
+
+#Tabla total de ocupados cotizando a pension
+geih_final %>% group_by(Oci) %>% summarise(total = table(P6920))
+
+#Gráfica histograma de distribucion de ingreso
+hist_ing = hist(geih_final$INGLABO)
+ggsave(hist=hist_ing, file = "task_1/views/hist_ing.jpeg")
+
+#Gráfica histograma de distribucion de edad
+hist_edad = ggplot(geih_final) + geom_histogram(aes(P6040))
+ggsave(plot=hist_edad, file = "task_1/views/hist_edad.jpeg")
+
+#Gráfica densidad del ingreso laboral
+graph_1 = ggplot(geih_final) + geom_density(aes(INGLABO))
+ggsave(plot=graph_1, file = "task_1/views/graph_1.jpeg")
+
+
 
